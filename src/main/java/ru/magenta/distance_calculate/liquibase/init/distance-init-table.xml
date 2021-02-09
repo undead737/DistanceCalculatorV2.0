@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<!--    Максимально возможное расстояние между объекьтами на Земле можно принять как: длина экватора/2 ~ 20037,848
+    Расстояния будем хранить в километрах, точность до метра -> Для целой части отведем 5 разрядов,
+    а для точности подсчетов отведем 3 разряда в дробной части-->
+    <changeSet author="Andrey (generated)" id="2">
+        <createTable tableName="distance">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="from_city" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="to_city" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="distance" type="DECIMAL(8, 3)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="Andrey (generated)" id="3">
+        <createIndex indexName="search_index" tableName="distance">
+            <column name="from_city"/>
+            <column name="to_city"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

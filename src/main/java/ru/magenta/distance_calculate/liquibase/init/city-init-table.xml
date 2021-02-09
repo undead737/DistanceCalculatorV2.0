@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<!--    Координаты в базе будем хранить в формате: Градусы с десятичной дробной частью
+    Значение широты от -90° до 90° -> Для целой части отведем два разряда, а для точности подсчетов отведем 6 разрядов в дробной части
+    Значение широты от -180° до 180° -> Для целой части отведем три разряда, а для точности подсчетов отведем 6 разрядов в дробной части-->
+    <changeSet author="Andrey (generated)" id="1">
+        <createTable tableName="city">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints nullable="false" primaryKey="true" unique="true"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="latitude" type="DECIMAL(8,6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="longitude" type="DECIMAL(9,6)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
