@@ -1,14 +1,14 @@
 package ru.magenta.distance_calculate.data.importer;
 
-import ru.magenta.distance_calculate.data.importer.XML.ConcatData;
+import ru.magenta.distance_calculate.data.importer.XML.models.RootElement;
 import ru.magenta.distance_calculate.exceptions.DataImportingException;
+import ru.magenta.distance_calculate.exceptions.ValidateException;
 
 import java.io.InputStream;
-import java.util.List;
 
 /**
  * Импорт данных
  */
 public interface Importer{
-    List<ConcatData> importData(InputStream file) throws DataImportingException;
+    RootElement importData(InputStream file) throws DataImportingException, ValidateException;
 }

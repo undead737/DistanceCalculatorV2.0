@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
-import ru.magenta.distance_calculate.models.Distance;
+import ru.magenta.distance_calculate.data.importer.XML.models.DistanceElement;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -23,18 +23,10 @@ public class DistanceDaoImpl implements DistanceDao {
     public DistanceDaoImpl(JdbcTemplate template) {
         this.template = template;
     }
-
+    
     @Override
     public void clearTable() throws DataAccessException {
         template.execute("delete from distance");
-    }
-
-    public void createIndex() throws DataAccessException{
-        template.execute("CREATE INDEX search_index ON distance(from_city, to_city)");
-    }
-
-    public void dropIndex() throws DataAccessException{
-        template.execute("drop index search_index on distance");
     }
 
     @Override
@@ -49,14 +41,15 @@ public class DistanceDaoImpl implements DistanceDao {
     }
 
     @Override
-    public void batchInsert(List<Distance> distances) throws DataAccessException {
-        template.batchUpdate("insert into distance (from_city, to_city, distance) values (?, ?, ?)",
+    public void batchInsert(List<DistanceElement> distances) throws DataAccessException {
+        template.batchUpdate("insert into distance (from_city, to_city, distance) values (" +
+                        "(select id from city where name=?), (select id from city where name=?), ?)",
                 new BatchPreparedStatementSetter() {
                     @Override
                     public void setValues(PreparedStatement ps, int i) throws SQLException {
-                        ps.setInt(1, distances.get(i).getFromCity());
-                        ps.setInt(2, distances.get(i).getToCity());
-                        ps.setFloat(3, distances.get(i).getDistance());
+                        ps.setString(1, distances.get(i).getNameFrom());
+                        ps.setString(2, distances.get(i).getNameTo());
+                        ps.setFloat(3, Float.parseFloat(distances.get(i).getDistance()));
                     }
 
                     @Override

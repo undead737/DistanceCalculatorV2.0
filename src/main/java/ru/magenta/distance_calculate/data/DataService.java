@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import ru.magenta.distance_calculate.exceptions.DataImportingException;
 import ru.magenta.distance_calculate.data.importer.Importer;
 import ru.magenta.distance_calculate.db.DBService;
+import ru.magenta.distance_calculate.exceptions.ValidateException;
 
 import java.io.InputStream;
 
@@ -20,7 +21,7 @@ public class DataService {
         this.DB_SERVICE = service;
     }
 
-    public void importData(InputStream file) throws DataImportingException, DataAccessException {
+    public void importData(InputStream file) throws DataImportingException, DataAccessException, ValidateException {
         DB_SERVICE.batchInsertConcatData(IMPORTER.importData(file));
     }
 }

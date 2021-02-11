@@ -13,10 +13,10 @@
                 <constraints nullable="false" unique="true"/>
             </column>
             <column name="from_city" type="INT">
-                <constraints nullable="false"/>
+                <constraints nullable="false" foreignKeyName="distance_from_city_id_fk" references="city(id)"/>
             </column>
             <column name="to_city" type="INT">
-                <constraints nullable="false"/>
+                <constraints nullable="false" foreignKeyName="distance_to_city_id_fk" references="city(id)"/>
             </column>
             <column name="distance" type="DECIMAL(8, 3)">
                 <constraints nullable="false"/>
@@ -24,11 +24,11 @@
         </createTable>
     </changeSet>
 
-    <changeSet author="Andrey (generated)" id="3">
-        <createIndex indexName="search_index" tableName="distance">
-            <column name="from_city"/>
-            <column name="to_city"/>
-        </createIndex>
-    </changeSet>
+<!--    <changeSet author="Andrey (generated)" id="3">-->
+<!--        <createIndex indexName="search_index" tableName="distance">-->
+<!--            <column name="from_city"/>-->
+<!--            <column name="to_city"/>-->
+<!--        </createIndex>-->
+<!--    </changeSet>-->
 
 </databaseChangeLog>

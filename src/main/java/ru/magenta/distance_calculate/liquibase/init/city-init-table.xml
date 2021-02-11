@@ -13,7 +13,7 @@
                 <constraints nullable="false" primaryKey="true" unique="true"/>
             </column>
             <column name="name" type="VARCHAR(100)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" unique="true"/>
             </column>
             <column name="latitude" type="DECIMAL(8,6)">
                 <constraints nullable="false"/>
@@ -22,6 +22,12 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+    </changeSet>
+
+    <changeSet author="Andrey (generated)" id="3">
+        <createIndex indexName="search_index" tableName="city">
+            <column name="name"/>
+        </createIndex>
     </changeSet>
 
 </databaseChangeLog>

@@ -5,11 +5,11 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
+import ru.magenta.distance_calculate.data.importer.XML.models.CityElement;
 import ru.magenta.distance_calculate.models.City;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Repository
@@ -19,6 +19,16 @@ public class CityDaoImpl implements CityDao {
     @Autowired
     public CityDaoImpl(JdbcTemplate template) {
         this.template = template;
+    }
+
+    @Override
+    public void createIndex() throws DataAccessException {
+        template.execute("CREATE INDEX search_index ON city(name)");
+    }
+
+    @Override
+    public void dropIndex() throws DataAccessException {
+        template.execute("drop index search_index on city");
     }
 
     @Override
@@ -44,9 +54,9 @@ public class CityDaoImpl implements CityDao {
     }
 
     @Override
-    public void batchInsert(Set<City> cities) throws DataAccessException {
-        template.batchUpdate("insert into city (id, name, latitude, longitude) values (?, ?, ?, ?)",
-                cities.stream().map(x->new Object[]{x.getId(), x.getName(), x.getLatitude(),x.getLatitude()}).collect(Collectors.toList()));
+    public void batchInsert(List<CityElement> cities) throws DataAccessException {
+        template.batchUpdate("insert into city (name, latitude, longitude) values (?, ?, ?)",
+                cities.stream().map(x->new Object[]{x.getName(), x.getLatitude(),x.getLongitude()}).collect(Collectors.toList()));
     }
 
     @Override

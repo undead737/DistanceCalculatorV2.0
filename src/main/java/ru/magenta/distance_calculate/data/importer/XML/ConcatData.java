@@ -14,7 +14,6 @@ import javax.xml.bind.annotation.XmlType;
 @NoArgsConstructor
 @Data
 @XmlRootElement
-@XmlType(name = "concat")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ConcatData {
     City cityFrom;
